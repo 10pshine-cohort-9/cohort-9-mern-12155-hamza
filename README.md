@@ -11,7 +11,7 @@ Full-stack notes app built with Node.js, Express, React, and MySQL.
 
 ## Project Structure
 
-```
+```text
 ├── server/                 # Backend API
 │   ├── src/
 │   │   ├── config/         # DB and logger configuration
