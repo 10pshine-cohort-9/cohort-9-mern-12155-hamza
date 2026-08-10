@@ -10,7 +10,12 @@ if (!Number.isInteger(PORT) || PORT < 0 || PORT > 65535) {
   process.exit(1);
 }
 
-await connectDatabase();
+try {
+  await connectDatabase();
+} catch (error) {
+  logger.fatal({ err: error }, "Failed to connect to database");
+  process.exit(1);
+}
 
 app.listen(PORT, () => {
   logger.info({ port: PORT }, "Server started");

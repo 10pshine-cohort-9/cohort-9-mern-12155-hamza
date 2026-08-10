@@ -23,13 +23,8 @@ app.all("*", (req, res, next) => {
 app.use(errorHandler);
 
 const connectDatabase = async () => {
-  try {
-    await prisma.$connect();
-    logger.info("Database connection established successfully");
-  } catch (error) {
-    logger.fatal({ error }, "Failed to connect to database");
-    process.exit(1);
-  }
+  await prisma.$connect();
+  logger.info("Database connection established successfully");
 };
 
 export { app, connectDatabase };
