@@ -1,9 +1,10 @@
-const express = require("express");
-const cors = require("cors");
-const pinoHttp = require("pino-http");
-const logger = require("./config/logger");
-const AppError = require("./utils/AppError");
-const errorHandler = require("./middleware/errorHandler");
+import express from "express";
+import cors from "cors";
+import pinoHttp from "pino-http";
+import logger from "./config/logger.js";
+import AppError from "./utils/AppError.js";
+import errorHandler from "./middleware/errorHandler.js";
+import prisma from "./utils/prisma.js";
 
 const app = express();
 
@@ -21,4 +22,14 @@ app.all("*", (req, res, next) => {
 
 app.use(errorHandler);
 
-module.exports = app;
+const connectDatabase = async () => {
+  try {
+    await prisma.$connect();
+    logger.info("Database connection established successfully");
+  } catch (error) {
+    logger.fatal({ error }, "Failed to connect to database");
+    process.exit(1);
+  }
+};
+
+export { app, connectDatabase };
