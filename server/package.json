@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Backend API for Notes Application",
   "main": "src/index.js",
+  "type": "module",
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
@@ -10,23 +11,25 @@
     "coverage": "nyc report --reporter=lcov"
   },
   "dependencies": {
+    "@prisma/adapter-pg": "^7.9.1",
+    "@prisma/client": "^7.9.1",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.0",
     "express-validator": "^7.2.0",
     "jsonwebtoken": "^9.0.2",
-    "mysql2": "^3.11.0",
+    "pg": "^8.23.0",
     "pino": "^9.3.2",
     "pino-http": "^10.2.0",
-    "pino-pretty": "^11.2.2",
-    "sequelize": "^6.37.3"
+    "pino-pretty": "^11.2.2"
   },
   "devDependencies": {
     "chai": "^4.4.1",
     "mocha": "^10.7.3",
     "nodemon": "^3.1.4",
     "nyc": "^17.0.0",
+    "prisma": "^7.9.1",
     "sinon": "^18.0.0",
     "supertest": "^7.0.0"
   }
