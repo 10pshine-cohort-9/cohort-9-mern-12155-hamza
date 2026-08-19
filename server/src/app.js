@@ -5,12 +5,15 @@ import logger from "./config/logger.js";
 import AppError from "./utils/AppError.js";
 import errorHandler from "./middleware/errorHandler.js";
 import prisma from "./utils/prisma.js";
+import authRoutes from "./routes/authRoutes.js";
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 app.use(pinoHttp({ logger }));
+
+app.use("/api/auth", authRoutes);
 
 app.get("/api/health", (req, res) => {
   res.json({ success: true, message: "Server is running" });
