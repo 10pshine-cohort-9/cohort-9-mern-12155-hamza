@@ -6,6 +6,7 @@ import AppError from "./utils/AppError.js";
 import errorHandler from "./middleware/errorHandler.js";
 import prisma from "./utils/prisma.js";
 import authRoutes from "./routes/authRoutes.js";
+import noteRoutes from "./routes/noteRoutes.js";
 
 const app = express();
 
@@ -14,6 +15,7 @@ app.use(express.json());
 app.use(pinoHttp({ logger }));
 
 app.use("/api/auth", authRoutes);
+app.use("/api/notes", noteRoutes);
 
 app.get("/api/health", (req, res) => {
   res.json({ success: true, message: "Server is running" });
