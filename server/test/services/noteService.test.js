@@ -18,7 +18,12 @@ describe("noteService", () => {
         create: sinon.stub().resolves(mockNote)
       });
 
-      const result = await createNote(userId, data);
+      let result;
+      try {
+        result = await createNote(userId, data);
+      } catch (error) {
+        throw error;
+      }
 
       expect(result).to.deep.equal(mockNote);
       expect(prisma.note.create.calledOnce).to.be.true;
@@ -49,7 +54,12 @@ describe("noteService", () => {
         findMany: sinon.stub().resolves(mockNotes)
       });
 
-      const result = await getNotes("user-1");
+      let result;
+      try {
+        result = await getNotes("user-1");
+      } catch (error) {
+        throw error;
+      }
 
       expect(result).to.deep.equal(mockNotes);
       expect(prisma.note.findMany.calledWith({ where: { userId: "user-1" } })).to.be.true;
@@ -77,7 +87,12 @@ describe("noteService", () => {
         findFirst: sinon.stub().resolves(mockNote)
       });
 
-      const result = await getNoteById("user-1", "note-1");
+      let result;
+      try {
+        result = await getNoteById("user-1", "note-1");
+      } catch (error) {
+        throw error;
+      }
 
       expect(result).to.deep.equal(mockNote);
       expect(prisma.note.findFirst.calledWith({ where: { id: "note-1", userId: "user-1" } })).to.be.true;
@@ -88,7 +103,12 @@ describe("noteService", () => {
         findFirst: sinon.stub().resolves(null)
       });
 
-      const result = await getNoteById(1, 999);
+      let result;
+      try {
+        result = await getNoteById(1, 999);
+      } catch (error) {
+        throw error;
+      }
 
       expect(result).to.be.null;
     });
@@ -102,7 +122,12 @@ describe("noteService", () => {
         updateMany: sinon.stub().resolves(mockNote)
       });
 
-      const result = await updateNote("user-1", "note-1", data);
+      let result;
+      try {
+        result = await updateNote("user-1", "note-1", data);
+      } catch (error) {
+        throw error;
+      }
 
       expect(result).to.deep.equal(mockNote);
       expect(prisma.note.updateMany.calledWith({ where: { id: "note-1", userId: "user-1" }, data })).to.be.true;
@@ -130,7 +155,12 @@ describe("noteService", () => {
         deleteMany: sinon.stub().resolves(mockNote)
       });
 
-      const result = await deleteNote("user-1", "note-1");
+      let result;
+      try {
+        result = await deleteNote("user-1", "note-1");
+      } catch (error) {
+        throw error;
+      }
 
       expect(result).to.deep.equal(mockNote);
       expect(prisma.note.deleteMany.calledWith({ where: { id: "note-1", userId: "user-1" } })).to.be.true;

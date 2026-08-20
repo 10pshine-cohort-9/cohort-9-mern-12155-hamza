@@ -22,7 +22,12 @@ describe("authService", () => {
         create: sinon.stub().resolves(mockUser)
       });
 
-      const result = await registerUser({ email, password });
+      let result;
+      try {
+        result = await registerUser({ email, password });
+      } catch (error) {
+        throw error;
+      }
 
       expect(result).to.deep.equal(mockUser);
       expect(bcrypt.hash.calledWith(password, 10)).to.be.true;
@@ -54,7 +59,12 @@ describe("authService", () => {
         findUnique: sinon.stub().resolves(null)
       });
 
-      const result = await loginUser({ email: "notfound@example.com", password: "password123" });
+      let result;
+      try {
+        result = await loginUser({ email: "notfound@example.com", password: "password123" });
+      } catch (error) {
+        throw error;
+      }
 
       expect(result).to.be.null;
     });
@@ -66,7 +76,12 @@ describe("authService", () => {
       });
       sinon.stub(bcrypt, "compare").resolves(false);
 
-      const result = await loginUser({ email: "test@example.com", password: "wrongpassword" });
+      let result;
+      try {
+        result = await loginUser({ email: "test@example.com", password: "wrongpassword" });
+      } catch (error) {
+        throw error;
+      }
 
       expect(result).to.be.null;
     });
