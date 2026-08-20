@@ -25,14 +25,14 @@ export const getNoteById = async (userId, noteId) => {
 };
 
 export const updateNote = async (userId, noteId, data) => {
-  return await prisma.note.update({
-    where: { id: noteId },
+  return await prisma.note.updateMany({
+    where: { id: noteId, userId },
     data,
   });
 };
 
 export const deleteNote = async (userId, noteId) => {
-  return await prisma.note.delete({
-    where: { id: noteId },
+  return await prisma.note.deleteMany({
+    where: { id: noteId, userId },
   });
 };

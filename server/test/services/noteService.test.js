@@ -22,6 +22,9 @@ describe("noteService", () => {
 
       expect(result).to.deep.equal(mockNote);
       expect(prisma.note.create.calledOnce).to.be.true;
+      expect(prisma.note.create.calledWith({
+        data: { ...data, userId }
+      })).to.be.true;
     });
 
     it("should propagate error if note creation fails", async () => {
@@ -96,19 +99,19 @@ describe("noteService", () => {
       const data = { title: "Updated Title" };
       const mockNote = { id: "note-1", title: "Updated Title", userId: "user-1" };
       sinon.stub(prisma, "note").value({
-        update: sinon.stub().resolves(mockNote)
+        updateMany: sinon.stub().resolves(mockNote)
       });
 
       const result = await updateNote("user-1", "note-1", data);
 
       expect(result).to.deep.equal(mockNote);
-      expect(prisma.note.update.calledWith({ where: { id: "note-1" }, data })).to.be.true;
+      expect(prisma.note.updateMany.calledWith({ where: { id: "note-1", userId: "user-1" }, data })).to.be.true;
     });
 
     it("should propagate error if update fails", async () => {
       const error = new Error("Database error");
       sinon.stub(prisma, "note").value({
-        update: sinon.stub().rejects(error)
+        updateMany: sinon.stub().rejects(error)
       });
 
       try {
@@ -124,19 +127,19 @@ describe("noteService", () => {
     it("should delete the note and return it", async () => {
       const mockNote = { id: "note-1", title: "Note 1", userId: "user-1" };
       sinon.stub(prisma, "note").value({
-        delete: sinon.stub().resolves(mockNote)
+        deleteMany: sinon.stub().resolves(mockNote)
       });
 
       const result = await deleteNote("user-1", "note-1");
 
       expect(result).to.deep.equal(mockNote);
-      expect(prisma.note.delete.calledWith({ where: { id: "note-1" } })).to.be.true;
+      expect(prisma.note.deleteMany.calledWith({ where: { id: "note-1", userId: "user-1" } })).to.be.true;
     });
 
     it("should propagate error if delete fails", async () => {
       const error = new Error("Database error");
       sinon.stub(prisma, "note").value({
-        delete: sinon.stub().rejects(error)
+        deleteMany: sinon.stub().rejects(error)
       });
 
       try {

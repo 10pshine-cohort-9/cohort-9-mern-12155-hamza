@@ -27,6 +27,9 @@ describe("authService", () => {
       expect(result).to.deep.equal(mockUser);
       expect(bcrypt.hash.calledWith(password, 10)).to.be.true;
       expect(prisma.user.create.calledOnce).to.be.true;
+      expect(prisma.user.create.calledWith({
+        data: { email, password: hashedPassword }
+      })).to.be.true;
     });
 
     it("should throw error if prisma create fails", async () => {
@@ -84,6 +87,9 @@ describe("authService", () => {
       const result = await loginUser({ email: "test@example.com", password: "password123" });
 
       expect(result).to.deep.equal({ user: mockUser, token: mockToken });
+      expect(prisma.user.findUnique.calledWith({ where: { email: "test@example.com" } })).to.be.true;
+      expect(bcrypt.compare.calledWith("password123", "hashedPassword")).to.be.true;
+      expect(jwt.sign.calledWith({ id: mockUser.id }, "secret", { expiresIn: "1d" })).to.be.true;
       
       process.env.JWT_SECRET = originalSecret;
     });
