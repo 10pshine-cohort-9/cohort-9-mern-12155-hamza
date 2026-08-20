@@ -84,14 +84,20 @@ describe("authService", () => {
       const originalSecret = process.env.JWT_SECRET;
       process.env.JWT_SECRET = "secret";
 
-      const result = await loginUser({ email: "test@example.com", password: "password123" });
+      try {
+        const result = await loginUser({ email: "test@example.com", password: "password123" });
 
-      expect(result).to.deep.equal({ user: mockUser, token: mockToken });
-      expect(prisma.user.findUnique.calledWith({ where: { email: "test@example.com" } })).to.be.true;
-      expect(bcrypt.compare.calledWith("password123", "hashedPassword")).to.be.true;
-      expect(jwt.sign.calledWith({ id: mockUser.id }, "secret", { expiresIn: "1d" })).to.be.true;
-      
-      process.env.JWT_SECRET = originalSecret;
+        expect(result).to.deep.equal({ user: mockUser, token: mockToken });
+        expect(prisma.user.findUnique.calledWith({ where: { email: "test@example.com" } })).to.be.true;
+        expect(bcrypt.compare.calledWith("password123", "hashedPassword")).to.be.true;
+        expect(jwt.sign.calledWith({ id: mockUser.id }, "secret", { expiresIn: "1d" })).to.be.true;
+      } finally {
+        if (originalSecret === undefined) {
+          delete process.env.JWT_SECRET;
+        } else {
+          process.env.JWT_SECRET = originalSecret;
+        }
+      }
     });
     
     it("should propagate database errors", async () => {
