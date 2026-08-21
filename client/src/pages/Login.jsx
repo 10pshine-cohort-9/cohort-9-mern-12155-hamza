@@ -1,46 +1,27 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import useAuthStore from "../store/useAuthStore.js";
+import AuthForm from "../components/AuthForm.jsx";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
   const login = useAuthStore((state) => state.login);
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError(null);
-    try {
-      await login({ email, password });
-      navigate("/dashboard");
-    } catch (err) {
-      setError(err.response?.data?.message || "Login failed");
-    }
+  const handleLogin = async (credentials) => {
+    await login(credentials);
+    const destination = location.state?.from?.pathname || "/dashboard";
+    navigate(destination, { replace: true });
   };
 
   return (
     <div>
       <h1>Login</h1>
-      {error && <p>{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <input 
-          type="email" 
-          value={email} 
-          onChange={(e) => setEmail(e.target.value)} 
-          required 
-          placeholder="Email"
-        />
-        <input 
-          type="password" 
-          value={password} 
-          onChange={(e) => setPassword(e.target.value)} 
-          required 
-          placeholder="Password"
-        />
-        <button type="submit">Login</button>
-      </form>
+      <AuthForm
+        onSubmit={handleLogin}
+        buttonLabel="Login"
+        autocompletePassword="current-password"
+      />
     </div>
   );
 };

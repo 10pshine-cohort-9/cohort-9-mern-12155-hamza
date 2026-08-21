@@ -1,12 +1,14 @@
 import axios from "axios";
+import useAuthStore from "../store/useAuthStore.js";
 
 const axiosClient = axios.create({
-  baseURL: "/api"
+  baseURL: "/api",
+  timeout: 15000
 });
 
 axiosClient.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("token");
+    const token = useAuthStore.getState().token;
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -19,7 +21,7 @@ axiosClient.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response && error.response.status === 401) {
-      localStorage.removeItem("token");
+      useAuthStore.getState().logout();
     }
     return Promise.reject(error);
   }

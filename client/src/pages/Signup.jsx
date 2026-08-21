@@ -1,46 +1,25 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import useAuthStore from "../store/useAuthStore.js";
+import AuthForm from "../components/AuthForm.jsx";
 
 const Signup = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
   const register = useAuthStore((state) => state.register);
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError(null);
-    try {
-      await register({ email, password });
-      navigate("/dashboard");
-    } catch (err) {
-      setError(err.response?.data?.message || "Signup failed");
-    }
+  const handleSignup = async (credentials) => {
+    await register(credentials);
+    navigate("/login", { replace: true });
   };
 
   return (
     <div>
       <h1>Signup</h1>
-      {error && <p>{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <input 
-          type="email" 
-          value={email} 
-          onChange={(e) => setEmail(e.target.value)} 
-          required 
-          placeholder="Email"
-        />
-        <input 
-          type="password" 
-          value={password} 
-          onChange={(e) => setPassword(e.target.value)} 
-          required 
-          placeholder="Password"
-        />
-        <button type="submit">Signup</button>
-      </form>
+      <AuthForm
+        onSubmit={handleSignup}
+        buttonLabel="Signup"
+        autocompletePassword="new-password"
+      />
     </div>
   );
 };
