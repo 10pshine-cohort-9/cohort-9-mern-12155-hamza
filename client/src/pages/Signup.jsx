@@ -13,14 +13,16 @@ const Signup = () => {
   };
 
   return (
-    <div>
-      <h1>Signup</h1>
-      <AuthForm
-        onSubmit={handleSignup}
-        buttonLabel="Signup"
-        autocompletePassword="new-password"
-      />
-    </div>
+    <AuthForm
+      onSubmit={handleSignup}
+      buttonLabel="Create Account"
+      autocompletePassword="new-password"
+      heading="Create account"
+      subheading="Get started with your free account"
+      footerText="Already have an account?"
+      footerLinkText="Sign in"
+      footerLinkTo="/login"
+    />
   );
 };
 

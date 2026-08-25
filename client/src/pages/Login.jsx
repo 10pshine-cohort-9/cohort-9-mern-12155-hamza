@@ -15,14 +15,16 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <h1>Login</h1>
-      <AuthForm
-        onSubmit={handleLogin}
-        buttonLabel="Login"
-        autocompletePassword="current-password"
-      />
-    </div>
+    <AuthForm
+      onSubmit={handleLogin}
+      buttonLabel="Sign In"
+      autocompletePassword="current-password"
+      heading="Welcome back"
+      subheading="Sign in to your account to continue"
+      footerText="Don't have an account?"
+      footerLinkText="Create one"
+      footerLinkTo="/signup"
+    />
   );
 };
 
