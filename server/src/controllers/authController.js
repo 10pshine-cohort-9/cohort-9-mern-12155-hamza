@@ -5,8 +5,8 @@ import prisma from "../utils/prisma.js";
 import { z } from "zod";
 
 const authSchema = z.object({
-  email: z.string().email("Invalid email address"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
+  email: z.email({ error: "Invalid email address" }),
+  password: z.string().min(6, { error: "Password must be at least 6 characters" }),
 });
 
 export const signup = async (req, res, next) => {

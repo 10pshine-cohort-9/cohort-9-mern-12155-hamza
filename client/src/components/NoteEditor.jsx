@@ -81,7 +81,7 @@ const NoteEditor = ({ note, onSave, onCancel, loading }) => {
         </div>
 
         <div className="note-editor__field">
-          <label className="note-editor__label">Content</label>
+          <label className="note-editor__label" id="note-content-label">Content</label>
           <ReactQuill
             theme="snow"
             value={content}
@@ -89,6 +89,7 @@ const NoteEditor = ({ note, onSave, onCancel, loading }) => {
             modules={modules}
             formats={formats}
             placeholder="Write your note..."
+            aria-labelledby="note-content-label"
           />
         </div>
 

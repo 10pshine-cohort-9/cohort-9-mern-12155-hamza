@@ -1,8 +1,8 @@
-const { TextEncoder, TextDecoder } = require("util");
+const { TextEncoder, TextDecoder } = require("node:util");
 
-if (typeof globalThis.TextEncoder === "undefined") {
+if (globalThis.TextEncoder === undefined) {
   globalThis.TextEncoder = TextEncoder;
 }
-if (typeof globalThis.TextDecoder === "undefined") {
+if (globalThis.TextDecoder === undefined) {
   globalThis.TextDecoder = TextDecoder;
 }

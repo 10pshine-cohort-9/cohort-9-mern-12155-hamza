@@ -89,19 +89,13 @@ describe("Dashboard Page", () => {
     expect(mockFetchNotes).toHaveBeenCalled();
   });
 
-  it("displays the user email in the header", () => {
+  it.each([
+    ["user email in the header", "testuser@example.com"],
+    ["Notes brand heading", "Notes"],
+    ["Logout button", "Logout"],
+  ])("displays %s", (_description, expectedText) => {
     render(<Dashboard />);
-    expect(screen.getByText("testuser@example.com")).toBeInTheDocument();
-  });
-
-  it("displays the Notes brand heading", () => {
-    render(<Dashboard />);
-    expect(screen.getByText("Notes")).toBeInTheDocument();
-  });
-
-  it("renders the Logout button", () => {
-    render(<Dashboard />);
-    expect(screen.getByText("Logout")).toBeInTheDocument();
+    expect(screen.getByText(expectedText)).toBeInTheDocument();
   });
 
   it("calls logout when Logout button is clicked", async () => {
