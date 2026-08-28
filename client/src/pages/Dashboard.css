@@ -131,7 +131,7 @@
   border-radius: 10px;
   background: rgba(239, 68, 68, 0.08);
   border: 1px solid rgba(239, 68, 68, 0.2);
-  color: #b91c1c;
+  color: #991b1b;
   font-size: 14px;
   margin-bottom: 24px;
 }
@@ -286,9 +286,9 @@
 }
 
 .note-card__btn--delete:hover {
-  background: rgba(185, 28, 28, 0.1);
-  border-color: rgba(185, 28, 28, 0.3);
-  color: #b91c1c;
+  background: rgba(153, 27, 27, 0.1);
+  border-color: rgba(153, 27, 27, 0.3);
+  color: #991b1b;
 }
 
 .note-card__confirm {
@@ -297,15 +297,15 @@
 }
 
 .note-card__btn--confirm-yes {
-  background: rgba(185, 28, 28, 0.1);
-  border-color: rgba(185, 28, 28, 0.3);
-  color: #b91c1c;
+  background: rgba(153, 27, 27, 0.1);
+  border-color: rgba(153, 27, 27, 0.3);
+  color: #991b1b;
 }
 
 .note-card__btn--confirm-yes:hover {
-  background: #b91c1c;
+  background: #991b1b;
   color: #fff;
-  border-color: #b91c1c;
+  border-color: #991b1b;
 }
 
 .note-card__btn--confirm-no:hover {

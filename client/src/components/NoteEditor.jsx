@@ -81,16 +81,17 @@ const NoteEditor = ({ note, onSave, onCancel, loading }) => {
         </div>
 
         <div className="note-editor__field">
-          <label className="note-editor__label" id="note-content-label">Content</label>
-          <ReactQuill
-            theme="snow"
-            value={content}
-            onChange={setContent}
-            modules={modules}
-            formats={formats}
-            placeholder="Write your note..."
-            aria-labelledby="note-content-label"
-          />
+          <label className="note-editor__label" htmlFor="note-content">Content</label>
+          <div id="note-content">
+            <ReactQuill
+              theme="snow"
+              value={content}
+              onChange={setContent}
+              modules={modules}
+              formats={formats}
+              placeholder="Write your note..."
+            />
+          </div>
         </div>
 
         <div className="note-editor__actions">

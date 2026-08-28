@@ -217,4 +217,82 @@ describe("Dashboard Page", () => {
     expect(mockClearCurrentNote).toHaveBeenCalled();
     expect(screen.getByText("Create Note")).toBeInTheDocument();
   });
+
+  it("calls createNote and closes editor when saving a new note", async () => {
+    mockCreateNote.mockResolvedValueOnce({ id: "new", title: "New", content: "" });
+    const user = userEvent.setup();
+    render(<Dashboard />);
+    await user.click(screen.getByText("New Note"));
+    expect(screen.getByText("Create Note")).toBeInTheDocument();
+    const titleInput = screen.getByPlaceholderText("Enter note title...");
+    await user.type(titleInput, "New Note Title");
+    await user.click(screen.getByText("Save"));
+    await waitFor(() => {
+      expect(mockCreateNote).toHaveBeenCalledWith({
+        title: "New Note Title",
+        content: "",
+      });
+    });
+    expect(mockClearCurrentNote).toHaveBeenCalled();
+  });
+
+  it("calls updateNote when saving an existing note", async () => {
+    const testNote = { id: "1", title: "Old Title", content: "<p>Old</p>", createdAt: "2024-01-01" };
+    mockNoteStoreState.notes = [testNote];
+    mockNoteStoreState.currentNote = testNote;
+    mockUpdateNote.mockResolvedValueOnce({ ...testNote, title: "Updated" });
+    const user = userEvent.setup();
+    render(<Dashboard />);
+    await user.click(screen.getByText("Edit"));
+    await waitFor(() => {
+      expect(screen.getByText("Edit Note")).toBeInTheDocument();
+    });
+    await user.click(screen.getByText("Save"));
+    await waitFor(() => {
+      expect(mockUpdateNote).toHaveBeenCalled();
+    });
+  });
+
+  it("closes editor and clears note when Cancel is clicked", async () => {
+    const user = userEvent.setup();
+    render(<Dashboard />);
+    await user.click(screen.getByText("New Note"));
+    expect(screen.getByText("Create Note")).toBeInTheDocument();
+    await user.click(screen.getByText("Cancel"));
+    expect(mockClearCurrentNote).toHaveBeenCalled();
+    expect(screen.queryByText("Create Note")).not.toBeInTheDocument();
+  });
+
+  it("handles createNote error gracefully", async () => {
+    const consoleSpy = jest.spyOn(console, "error").mockImplementation(() => {});
+    mockCreateNote.mockRejectedValueOnce(new Error("Network error"));
+    const user = userEvent.setup();
+    render(<Dashboard />);
+    await user.click(screen.getByText("New Note"));
+    const titleInput = screen.getByPlaceholderText("Enter note title...");
+    await user.type(titleInput, "Failing Note");
+    await user.click(screen.getByText("Save"));
+    await waitFor(() => {
+      expect(mockCreateNote).toHaveBeenCalled();
+    });
+    expect(consoleSpy).toHaveBeenCalledWith("Failed to save note:", expect.any(Error));
+    consoleSpy.mockRestore();
+  });
+
+  it("handles deleteNote error gracefully", async () => {
+    const consoleSpy = jest.spyOn(console, "error").mockImplementation(() => {});
+    mockNoteStoreState.notes = [
+      { id: "1", title: "Test Note", content: "<p>Test</p>", createdAt: "2024-01-01" },
+    ];
+    mockDeleteNote.mockRejectedValueOnce(new Error("Delete failed"));
+    const user = userEvent.setup();
+    render(<Dashboard />);
+    await user.click(screen.getByText("Delete"));
+    await user.click(screen.getByText("Confirm"));
+    await waitFor(() => {
+      expect(mockDeleteNote).toHaveBeenCalledWith("1");
+    });
+    expect(consoleSpy).toHaveBeenCalledWith("Failed to delete note:", expect.any(Error));
+    consoleSpy.mockRestore();
+  });
 });
