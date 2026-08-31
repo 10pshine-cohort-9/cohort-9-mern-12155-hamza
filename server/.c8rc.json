@@ -1,0 +1,7 @@
+{
+  "all": true,
+  "include": ["src/**/*.js"],
+  "exclude": ["src/generated/**", "src/index.js", "src/config/logger.js"],
+  "reporter": ["text", "lcov"],
+  "extension": [".js"]
+}

@@ -9,3 +9,5 @@ coverage/
 .sonarqube/
 .DS_Store
 Thumbs.db
+
+.scannerwork/

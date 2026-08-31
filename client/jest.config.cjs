@@ -8,4 +8,11 @@ module.exports = {
   moduleNameMapper: {
     "\\.(css|less|scss|sass)$": "identity-obj-proxy",
   },
+  collectCoverageFrom: [
+    "src/**/*.{js,jsx}",
+    "!src/__tests__/**",
+    "!src/main.jsx",
+    "!src/setupEnv.js",
+    "!src/setupTests.js",
+  ],
 };

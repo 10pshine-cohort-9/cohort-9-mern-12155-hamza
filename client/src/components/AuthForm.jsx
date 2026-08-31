@@ -170,7 +170,7 @@ const AuthForm = ({
             {submitting ? (
               <span className="auth__submit-loading">
                 <span className="auth__submit-spinner" />
-                Please wait...
+                <span>Please wait...</span>
               </span>
             ) : (
               buttonLabel

@@ -68,7 +68,7 @@ const Dashboard = () => {
       setShowEditor(false);
       clearCurrentNote();
     } catch (err) {
-      /* error is handled in store */
+      console.error("Failed to save note:", err);
     }
   };
 
@@ -77,7 +77,7 @@ const Dashboard = () => {
       await deleteNote(id);
       setDeleteConfirm(null);
     } catch (err) {
-      /* error is handled in store */
+      console.error("Failed to delete note:", err);
     }
   };
 
@@ -110,7 +110,7 @@ const Dashboard = () => {
             </p>
           </div>
         </div>
-        <button className="dashboard__logout" onClick={logout}>
+        <button type="button" className="dashboard__logout" onClick={logout}>
           <svg
             width="18"
             height="18"
@@ -134,7 +134,7 @@ const Dashboard = () => {
           <span className="dashboard__count">{notes.length}</span>
           <span>{notes.length === 1 ? "note" : "notes"}</span>
         </div>
-        <button className="dashboard__create-btn" onClick={handleCreateNew}>
+        <button type="button" className="dashboard__create-btn" onClick={handleCreateNew}>
           <svg
             width="18"
             height="18"
@@ -195,7 +195,7 @@ const Dashboard = () => {
           </svg>
           <h3>No notes yet</h3>
           <p>Create your first note to get started.</p>
-          <button className="dashboard__create-btn" onClick={handleCreateNew}>
+          <button type="button" className="dashboard__create-btn" onClick={handleCreateNew}>
             <svg
               width="18"
               height="18"
@@ -228,6 +228,7 @@ const Dashboard = () => {
               </p>
               <div className="note-card__actions">
                 <button
+                  type="button"
                   className="note-card__btn note-card__btn--edit"
                   onClick={() => handleEdit(note)}
                 >
@@ -249,12 +250,14 @@ const Dashboard = () => {
                 {deleteConfirm === note.id ? (
                   <div className="note-card__confirm">
                     <button
+                      type="button"
                       className="note-card__btn note-card__btn--confirm-yes"
                       onClick={() => handleDelete(note.id)}
                     >
                       Confirm
                     </button>
                     <button
+                      type="button"
                       className="note-card__btn note-card__btn--confirm-no"
                       onClick={() => setDeleteConfirm(null)}
                     >
@@ -263,6 +266,7 @@ const Dashboard = () => {
                   </div>
                 ) : (
                   <button
+                    type="button"
                     className="note-card__btn note-card__btn--delete"
                     onClick={() => setDeleteConfirm(note.id)}
                   >
